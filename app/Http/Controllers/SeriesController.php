@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateSeriesFormRequest;
 use App\Series;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,8 @@ class SeriesController extends Controller
         return view('series.edit', compact('series'));
     }
 
-    public function update()
+    public function update(UpdateSeriesFormRequest $request)
     {
-
+        
     }
 }
