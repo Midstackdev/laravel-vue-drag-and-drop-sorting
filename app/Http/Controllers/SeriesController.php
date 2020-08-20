@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateSeriesFormRequest;
+use App\Jobs\UpdateSeriesParts;
 use App\Series;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class SeriesController extends Controller
 {
@@ -21,12 +21,8 @@ class SeriesController extends Controller
         $series->title = $request->title;
         $series->save();
 
-        // dd($request->parts);
+        dispatch(new UpdateSeriesParts($series, $request->parts));
 
-        $series->parts->each(function ($parts, $index) use ($request) {
-            $parts->timestamps = false;
-            $parts->update(Arr::only($request->parts[$index], ['title', 'sort_order']));
-            // dd(Arr::only($request->parts[$index], ['title', 'sort_order']));
-        });
+        return response(null, 200);
     }
 }
